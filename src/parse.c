@@ -95,6 +95,11 @@ int validate_db_header(int fd, struct dbheader_t **headerOut) {
 // creates a default database header in file associated with
 // file descriptor fd
 int create_db_header(struct dbheader_t **headerOut) {
+	if(*headerOut == NULL) {
+		printf("Invalid database header given.\n");
+		return STATUS_ERROR;
+	}
+
 	struct dbheader_t *header = calloc(1, sizeof(struct dbheader_t));
 	if(header == -1) {
 		printf("Calloc failed to create database header.\n");
