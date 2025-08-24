@@ -62,8 +62,6 @@ int main(int argc, char *argv[]) {
 			printf("Unable to create database header.\n");
 			return STATUS_ERROR;
 		}
-		
-		output_file(dbfd, dbhdr, NULL);
 	} else { // user wants to open an existing database file.
 		dbfd = open_db_file(filepath);
 		if(dbfd == STATUS_ERROR) {
@@ -77,7 +75,10 @@ int main(int argc, char *argv[]) {
 		}
 	}
 
-	output_file(dbfd, dbhdr, NULL);
+	if(output_file(dbfd, dbhdr, NULL) == STATUS_ERROR) {
+		printf("unable to write to database file.\n");
+		return STATUS_ERROR;
+	}
 
 	// clouse the database file
 	close(dbfd);
