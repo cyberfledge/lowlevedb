@@ -44,7 +44,7 @@ int output_file(int fd, struct dbheader_t *dbhdr) { //, struct employee_t *emplo
 // validate the database header to ensure the database file is 
 // the correct version and type of database (HEADER_MAGIC).
 // also check that the recorded filesize matches the file size on disk.
-int validate_db_header(int fd, struct dbheader_t **headerOut) {
+int validate_db_header(int fd) {
 	if(fd < 0) {
 		printf("Bad file descriptor given.\n");
 		return STATUS_ERROR;
