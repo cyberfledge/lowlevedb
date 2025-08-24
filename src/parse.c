@@ -95,7 +95,7 @@ int validate_db_header(int fd, struct dbheader_t **headerOut) {
 // creates a default database header in file associated with
 // file descriptor fd
 int create_db_header(struct dbheader_t **headerOut) {
-	if(*headerOut == NULL) {
+	if(headerOut == NULL) {
 		printf("Invalid database header given.\n");
 		return STATUS_ERROR;
 	}
