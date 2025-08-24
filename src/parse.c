@@ -45,7 +45,7 @@ int output_file(int fd, struct dbheader_t *dbhdr, struct employee_t *employees) 
 // validate the database header to ensure the database file is 
 // the correct version and type of database (HEADER_MAGIC).
 // also check that the recorded filesize matches the file size on disk.
-int validate_db_header(int fd) {
+int validate_db_header(int fd, struct dbheader_t **headerOut) {
 	if(fd < 0) {
 		printf("Bad file descriptor given.\n");
 		return STATUS_ERROR;
@@ -92,7 +92,7 @@ int validate_db_header(int fd) {
 
 // creates a default database header in file associated with
 // file descriptor fd
-int create_db_header(struct dbheader_t **headerOut) {
+int create_db_header(int fd, struct dbheader_t **headerOut) {
 	struct dbheader_t *header = calloc(1, sizeof(struct dbheader_t));
 	if(header == -1) {
 		printf("Calloc failed to create database header.\n");
