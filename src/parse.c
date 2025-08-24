@@ -14,19 +14,55 @@ void list_employees(struct dbheader_t *dbhdr, struct employee_t *employees) {
 
 }
 
-int add_employee(struct dbheader_t *dbhdr, struct employee_t *employees, char *addstring) {
-	printf("%s\n", addstring);
+int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *addstring) {
+
+	if(dbhdr == NULL) {
+		printf("Invalid database header.\n");
+		return STATUS_ERROR;
+	}
 	
+	if(employees == NULL) {
+		printf("Invalid employees list.\n");
+		return STATUS_ERROR;
+	}
+
+	if(addstring == NULL) {
+		printf("Invalid new uesr info.\n");
+		return STATUS_ERROR;
+	}
+
 	int count = dbhdr->count;
 	char *name = strtok(addstring, ",");
-	char *address = strtok(NULL, ",");
-	char *hours = strtok(NULL, ",");
+	if(name == NULL) {
+		printf("Incorrectly formatted addstring.\n");
+		return STATUS_ERROR;
+	}
 
-	strncpy(employees[count - 1].name, name, sizeof(employees[count - 1].name));
-	strncpy(employees[count - 1].address, address, sizeof(employees[count - 1].address));
-	employees[count - 1].hours = atoi(hours);
+	char *address = strtok(NULL, ",");
+	if(address == NULL) {
+		printf("Incorrectly formatted addstring.\n");
+		return STATUS_ERROR;
+	}
+
+	char *hours = strtok(NULL, ",");
+	if(hours == NULL) {
+		printf("Incorrectly formatted addstring.\n");
+		return STATUS_ERROR;
+	}
+
+	dbhdr->count++;
+	struct employee_t *tmpemp = realloc(*employees, (dbhdr->count * sizeof(struct employee_t)));
+	if(tmpemp == NULL) {
+		perror("realloc()");
+		return STATUS_ERROR;
+	}
+
+	strncpy(tmpemp[dbhdr->count - 1].name, name, sizeof(tmpemp[dbhdr->count - 1].name));
+	strncpy(tmpemp[dbhdr->count - 1].address, address, sizeof(tmpemp[dbhdr->count - 1].address));
+	tmpemp[dbhdr->count - 1].hours = atoi(hours);
 	
-	printf("%s,%s,%s\n", name, address, hours);
+	*employees = tmpemp;
+
 	return STATUS_SUCCESS;
 }
 
@@ -163,7 +199,7 @@ int validate_db_header(int fd, struct dbheader_t **headerOut) {
 
 // creates a default database header in file associated with
 // file descriptor fd
-int create_db_header(int fd, struct dbheader_t **headerOut) {
+int create_db_header(struct dbheader_t **headerOut) {
 	if(headerOut == NULL) {
 		printf("Invalid database header given.\n");
 		return STATUS_ERROR;

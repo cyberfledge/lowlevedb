@@ -63,7 +63,7 @@ int main(int argc, char *argv[]) {
 			return STATUS_ERROR;
 		}
 
-		if(create_db_header(dbfd, &dbhdr) == STATUS_ERROR) {
+		if(create_db_header(&dbhdr) == STATUS_ERROR) {
 			printf("Unable to create database header.\n");
 			return STATUS_ERROR;
 		}
@@ -86,9 +86,9 @@ int main(int argc, char *argv[]) {
 	}
 
 	if(addstring != NULL) {
-		dbhdr->count++;
-		realloc(employees, (dbhdr->count * sizeof(struct employee_t)));
-		add_employee(dbhdr, employees, addstring);
+		//dbhdr->count++;
+		//realloc(employees, (dbhdr->count * sizeof(struct employee_t)));
+		add_employee(dbhdr, &employees, addstring);
 	}
 
 	if(output_file(dbfd, dbhdr, employees) == STATUS_ERROR) {
