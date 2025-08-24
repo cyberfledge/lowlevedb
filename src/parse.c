@@ -23,7 +23,8 @@
 //}
 
 // write to the specified database file
-int output_file(int fd, struct dbheader_t *dbhdr) { //, struct employee_t *employees) {
+int output_file(int fd, struct dbheader_t *dbhdr, struct employee_t *employees) {
+	employees = NULL;
 	if(fd < 0) {
 		printf("Bad file descriptor provided.\n");
 		return STATUS_ERROR;

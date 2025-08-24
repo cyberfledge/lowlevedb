@@ -75,7 +75,7 @@ int main(int argc, char *argv[]) {
 		}
 	}
 
-	output_file(dbfd, dbhdr);
+	output_file(dbfd, dbhdr, NULL);
 
 	// clouse the database file
 	close(dbfd);
