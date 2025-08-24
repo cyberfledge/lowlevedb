@@ -85,6 +85,8 @@ int validate_db_header(int fd) {
 		free(header);
 		return STATUS_ERROR;
 	}
+
+	return STATUS_SUCCESS;
 }
 
 // creates a default database header in file associated with
